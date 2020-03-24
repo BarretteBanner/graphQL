@@ -3,10 +3,6 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
-  "scripts": {
-    "start-dev": "nodemon src/index.js",
-    "start": "node src/index.js"
-  },
   "keywords": [],
   "author": "",
   "license": "ISC",
@@ -20,5 +16,9 @@
   "devDependencies": {
     "nodemon": "^2.0.2",
     "prettier": "2.0.1"
+  },
+  "scripts": {
+    "start-dev": "nodemon src/index.js",
+    "start": "node src/index.js"
   }
 }
