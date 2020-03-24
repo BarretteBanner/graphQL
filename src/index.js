@@ -1,6 +1,8 @@
 const { ApolloServer, gql } = require('apollo-server');
 const { Sequelize } = require('sequelize');
-const sequelize = new Sequelize('postgres://localhost:5432/barrettebanner');
+require('dotenv').config();
+let postgresUrl = process.env.POSTGRES_URL;
+const sequelize = new Sequelize(postgresUrl);
 
 const typeDefs = gql`
   type Query {
