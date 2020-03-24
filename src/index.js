@@ -1,8 +1,7 @@
 const { ApolloServer, gql } = require('apollo-server');
 const { Sequelize } = require('sequelize');
 require('dotenv').config();
-let postgresUrl = process.env.POSTGRES_URL;
-const sequelize = new Sequelize(postgresUrl);
+const sequelize = new Sequelize(process.env.POSTGRES_URL);
 
 const typeDefs = gql`
   type Query {
