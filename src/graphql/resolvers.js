@@ -1,8 +1,5 @@
 module.exports = {
-  hello() {
-    return {
-      text: 'Hello mate!',
-      views: 1234,
-    };
+  login: async function ({ email, password }) {
+    const user = await user.findAll;
   },
 };
