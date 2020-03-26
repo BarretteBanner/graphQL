@@ -5,8 +5,6 @@ const graphqlResolver = require('./graphql/resolvers');
 
 require('dotenv').config();
 const sequelize = require('./db/models');
-////const user = db.User.findAll();
-//console.log(user);
 const start = async () => {
   const db = await sequelize();
   try {
@@ -24,8 +22,10 @@ const start = async () => {
       graphiql: true,
     })
   );
-  app.listen(4001, () =>
-    console.log('Server launched at http://localhost:4001/graphql')
+  app.listen(process.env.PORT, () =>
+    console.log(
+      `Server launched at http://localhost:${process.env.PORT}/graphql`
+    )
   );
 };
 

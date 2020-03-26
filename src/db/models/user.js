@@ -6,11 +6,6 @@ module.exports = (sequelize, type) => {
       autoIncrement: true,
     },
     email: type.STRING,
-    username: {
-      type: type.STRING,
-      allowNull: false,
-      unique: true,
-    },
     password: {
       type: type.STRING,
       allowNull: false,
