@@ -1,32 +1,16 @@
 const sequelize = require('../db/models');
 const bcrypt = require('bcrypt');
-const validator = require('validator');
-
 const db = (module.exports = {
   createUser: async function ({ userInput }, req) {
-    const errors = [];
-    if (!validator.isEmail(userInput.email)) {
-      errors.push({ message: 'Email is invalid.' });
-    }
-    if (
-      validator.isEmpty(userInput.email) ||
-      validator.isEmpty(userInput.password)
-    ) {
-      errors.push({ message: 'Email and password required!' });
-    }
     const database = await sequelize();
-    const existingUser = await User.findAll({
+    const existingUser = database.sequelize.models.user.findAndCountAll({
       where: { email: userInput.email },
     });
-    if (existingUser) {
+    if ((await existingUser).count > 0) {
       const error = new Error('User exists already!');
       throw error;
     }
-    if (errors.length > 0) {
-      const error = new Error('Invalid input.');
-      throw error;
-    }
-    const hashedPw = await bcrypt(userInput.password, 12);
+    const hashedPw = await bcrypt.hash(userInput.password, 12);
     const createdUser = await database.sequelize.models.user.create({
       email: userInput.email,
       password: hashedPw,
@@ -34,12 +18,23 @@ const db = (module.exports = {
     return createdUser;
   },
   login: async function ({ email, password }) {
-    const user = await db.User.find({
-      where: {
-        email: email,
-        password: password,
-      },
+    const database = await sequelize();
+    const aUser = await database.sequelize.models.user.findOne({
+      where: { email: email },
     });
-    return user;
+    if (aUser === null) {
+      console.log('no user found');
+    }
+    if (aUser === null) {
+      const error = new Error('User not found!');
+      throw error;
+    }
+    const hash = bcrypt.hashSync(password, aUser.password);
+    const match = bcrypt.compareSync(password, hash);
+    if (!match) {
+      const error = new Error('Password is incorrect.');
+      throw error;
+    }
+    return aUser;
   },
 });
