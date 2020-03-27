@@ -17,11 +17,8 @@ module.exports = buildSchema(`
         createUser(userInput: UserInputData): User!
     }
 
-    type LoginData{
-        userId: String!
-    }
     type RootQuery{
-        login(email: String!, password: String!): LoginData!
+        login(email: String!, password: String!): User!
     }
 schema{
     query: RootQuery

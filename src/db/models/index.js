@@ -29,6 +29,6 @@ module.exports = async () => {
 
   db.sequelize = sequelize;
   db.Sequelize = Sequelize;
-  await db.sequelize.sync({ force: true });
+  await db.sequelize.sync({ force: false });
   return db;
 };
