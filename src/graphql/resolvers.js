@@ -19,22 +19,19 @@ const db = (module.exports = {
   },
   login: async function ({ email, password }) {
     const database = await sequelize();
-    const aUser = await database.sequelize.models.user.findOne({
+    const User = await database.sequelize.models.user.findOne({
       where: { email: email },
     });
-    if (aUser === null) {
-      console.log('no user found');
-    }
-    if (aUser === null) {
+    if (User === null) {
       const error = new Error('User not found!');
       throw error;
     }
-    const hash = bcrypt.hashSync(password, aUser.password);
+    const hash = bcrypt.hashSync(password, User.password);
     const match = bcrypt.compareSync(password, hash);
     if (!match) {
       const error = new Error('Password is incorrect.');
       throw error;
     }
-    return aUser;
+    return User;
   },
 });
