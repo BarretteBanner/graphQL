@@ -34,4 +34,22 @@ const db = (module.exports = {
     }
     return User;
   },
+  getWords: async function ({ levelChoice }) {
+    const database = await sequelize();
+    console.log(levelChoice);
+    if (levelChoice !== 'all') {
+      const Words = await database.sequelize.models.Word.findAll({
+        where: { level: levelChoice },
+      });
+      return Words;
+    } else {
+      const Words = await database.sequelize.models.Word.findAll();
+      return Words;
+    }
+  },
+  getUsers: async function () {
+    const database = await sequelize();
+    const Users = await database.sequelize.models.user.findAll();
+    return Users;
+  },
 });

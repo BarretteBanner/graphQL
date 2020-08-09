@@ -2,6 +2,7 @@ const express = require('express');
 const graphqlHttp = require('express-graphql');
 const graphqlSchema = require('../schema');
 const graphqlResolver = require('./graphql/resolvers');
+const cors = require('cors');
 
 require('dotenv').config();
 const sequelize = require('./db/models');
@@ -14,6 +15,13 @@ const start = async () => {
     console.error('Unable to connect to the database:', error);
   }
   const app = express();
+  app.use((req, res, next) => {
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Allow-Headers', '*');
+    res.setHeader('Access-Control-Allow-Methods', 'POST');
+    next();
+  });
+  app.options('*', cors());
   app.use(
     '/graphql',
     graphqlHttp({
@@ -22,9 +30,10 @@ const start = async () => {
       graphiql: true,
     })
   );
+
   app.listen(process.env.PORT, () =>
     console.log(
-      `Server launched at http://localhost:${process.env.PORT}/graphql`
+      `Server ready for use at http://localhost:${process.env.PORT}/graphql`
     )
   );
 };

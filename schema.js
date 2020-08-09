@@ -7,6 +7,11 @@ module.exports = buildSchema(`
         email: String!
         password: String!
     }
+    type Word{
+        spanish: String!
+        english: String!
+        level: String
+    }
 
     input UserInputData{
         email: String!
@@ -19,6 +24,8 @@ module.exports = buildSchema(`
 
     type RootQuery{
         login(email: String!, password: String!): User!
+        getWords(levelChoice: String!): [Word!]!
+        getUsers: [User!]!
     }
 schema{
     query: RootQuery
